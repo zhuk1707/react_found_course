@@ -2,8 +2,7 @@ import React, {useMemo, useState} from "react";
 import "./styles/App.css";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
-import MySelect from "./components/UI/select/MySelect";
-import MyInput from "./components/UI/input/MyInput";
+import PostFilter from "./components/PostFilter";
 
 
 function App() {
@@ -35,23 +34,21 @@ function App() {
     }
   ])
 
-  const [selectedSort, setSelectedSort] = useState('')
-  const [searchQuery, setSearchQuery] = useState('')
+  const [filter, setFilter] = useState({sort: '', query: ''})
 
   //useMemo - Memoization, caching
   const sortedPosts = useMemo(() => {
-    console.log('+1')
-    if (selectedSort) {
+    if (filter.sort) {
       return [...posts].sort((a, b) => {
-        a[selectedSort].localeCompare(b[selectedSort])
+        a[filter.sort].localeCompare(b[filter.sort])
       })
     }
     return posts
-  }, [selectedSort, posts])
+  }, [filter.sort, posts])
 
   const sortedAndSearchedPosts = useMemo(() => {
-    return sortedPosts.filter(post => post.title.toLowerCase().includes(searchQuery))
-  }, [searchQuery, sortedPosts])
+    return sortedPosts.filter(post => post.title.toLowerCase().includes(filter.query))
+  }, [filter.query, sortedPosts])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
@@ -60,11 +57,6 @@ function App() {
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
-
-  const sortPosts = (sort) => {
-    setSelectedSort(sort)
-  }
-
 
   return (
     <div className="App">
@@ -84,40 +76,12 @@ function App() {
 
       <PostForm create={createPost}/>
 
-      <div>
+      <PostFilter
+        filter={filter}
+        setFilter={setFilter}
+      />
 
-        <div className={'search'}>
-          <MyInput
-            value={searchQuery}
-            onChange={event => setSearchQuery(event.target.value)}
-            placeholder={'Search...'}
-          />
-        </div>
-
-
-        <MySelect
-          value = {selectedSort}
-          onChange={sortPosts}
-          defaultValue='Sort by:'
-          options={[
-            {value: 'title', name: 'title'},
-            {value: 'postContent', name: 'description'}
-          ]}
-        />
-      </div>
-
-      {posts.length
-        ? <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'JavaScript'}/>
-        : <div style={{
-          textAlign: 'center',
-          fontSize: '24px',
-          marginTop: '80px',
-          color: 'grey'
-        }}>
-          There are no posts here yet...
-        </div>
-      }
-
+      <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'JavaScript'}/>
 
       <div className={'copyright'}>
         App created by <a href="https://github.com/zhuk1707">Zhuk1707</a> with <a href="https://www.youtube.com/watch?v=GNrdg3PzpJQ&t=4157s&ab_channel=UlbiTV">Ulbi TV</a> help. 2022
