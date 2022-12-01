@@ -1,0 +1,15 @@
+.MyBtn {
+    text-align: center;
+    border-radius: 10px;
+    padding: 6px 8px;
+    color: grey;
+    border: 1px solid grey;
+
+    transition: all .3s ease;
+}
+
+.MyBtn:hover {
+    color: white;
+    background-color: #7000b7;
+    border-color: #7000b7;
+}
