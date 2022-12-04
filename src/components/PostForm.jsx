@@ -21,7 +21,7 @@ const PostForm = ({create}) => {
   }
 
   return (
-    <form action="" className={"post-form"}>
+    <form>
       <MyInput
         value = {post.title}
         onChange = {e => setPost({...post, title: e.target.value})}

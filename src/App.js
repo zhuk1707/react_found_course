@@ -3,6 +3,8 @@ import "./styles/App.css";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
 import PostFilter from "./components/PostFilter";
+import MyModal from "./components/UI/modal/MyModal";
+import MyButton from "./components/UI/button/MyButton";
 
 
 function App() {
@@ -36,6 +38,9 @@ function App() {
 
   const [filter, setFilter] = useState({sort: '', query: ''})
 
+  const [modal, setModal] = useState(false)
+
+  //------------------
   //useMemo - Memoization, caching
   const sortedPosts = useMemo(() => {
     if (filter.sort) {
@@ -52,12 +57,14 @@ function App() {
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
+    setModal(false)
   }
 
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
+  //------------------
   return (
     <div className="App">
       {/*<em>Counter using functional component:</em>
@@ -74,14 +81,26 @@ function App() {
 
       <hr/>*/}
 
-      <PostForm create={createPost}/>
+      <MyButton
+        onClick={() => {setModal(true)}}
+        style={{
+          marginTop: '20px',
+          borderColor: '#7000b7',
+          width: '100%',
+      }}>
+        Create post &#43;
+      </MyButton>
+
+      <MyModal visible={modal} setVisible={setModal}>
+        <PostForm create={createPost}/>
+      </MyModal>
 
       <PostFilter
         filter={filter}
         setFilter={setFilter}
       />
 
-      <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'JavaScript'}/>
+      <PostList remove={removePost} posts={sortedAndSearchedPosts} title={'Posts'}/>
 
       <div className={'copyright'}>
         App created by <a href="https://github.com/zhuk1707">Zhuk1707</a> with <a href="https://www.youtube.com/watch?v=GNrdg3PzpJQ&t=4157s&ab_channel=UlbiTV">Ulbi TV</a> help. 2022
