@@ -69,3 +69,20 @@ h3 {
     color: #7000b7;
     border-bottom: 1px solid #7000b7;
 }
+
+.post-enter {
+    transform: translateX(-350px);
+}
+
+.post-enter-active {
+    transform: translateX(0px);
+    transition: all .3s ease-in;
+}
+
+.post-exit {
+}
+
+.post-exit-active {
+    transform: translateX(-350px);
+    transition: all .3s ease-in;
+}
