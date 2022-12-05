@@ -9,7 +9,7 @@ const PostList = ({posts, title, remove}) => {
       <div style={{
         textAlign: 'center',
         fontSize: '24px',
-        marginTop: '80px',
+        margin: '80px 0 160px',
         color: 'grey'
       }}>
         There are no posts here yet...
