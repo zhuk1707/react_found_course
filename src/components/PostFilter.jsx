@@ -20,7 +20,7 @@ const PostFilter = ({filter, setFilter}) => {
         defaultValue='Sort by:'
         options={[
           {value: 'title', name: 'title'},
-          {value: 'postContent', name: 'description'}
+          {value: 'body', name: 'description'}
         ]}
       />
     </>

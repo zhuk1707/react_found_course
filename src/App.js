@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./styles/App.css";
 import PostList from "./components/PostList";
 import PostForm from "./components/PostForm";
@@ -6,6 +6,7 @@ import PostFilter from "./components/PostFilter";
 import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
+import PostService from "./API/PostService";
 
 function App() {
   const [posts, setPosts] = useState([])
@@ -14,11 +15,21 @@ function App() {
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
 
   //------------------
+  useEffect(() => {
+    fetchPosts()
+  }, [/*no dependencies means the effect will be called once*/])
+
+
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
     setModal(false)
   }
 
+  async function fetchPosts() {
+    const posts = await PostService.getAll()
+    setPosts(posts.data)
+  }
+  
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
@@ -26,20 +37,6 @@ function App() {
   //------------------
   return (
     <div className="App">
-      {/*<em>Counter using functional component:</em>
-      <Counter/>
-
-      <br/>
-      <em>Counter using class component:</em>
-      <ClassCounter/>
-
-      <hr/>
-
-      <em>Managed text:</em>
-      <ManagedText/>
-
-      <hr/>*/}
-
       <MyButton
         onClick={() => {
           setModal(true)
@@ -48,6 +45,9 @@ function App() {
           marginTop: '20px',
           borderColor: '#7000b7',
           width: '100%',
+          minHeight: '40px',
+          borderRadius: '25px',
+          fontSize: '15px'
         }}>
         Create post &#43;
       </MyButton>
