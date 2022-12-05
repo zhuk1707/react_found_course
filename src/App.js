@@ -7,12 +7,15 @@ import MyModal from "./components/UI/modal/MyModal";
 import MyButton from "./components/UI/button/MyButton";
 import {usePosts} from "./hooks/usePosts";
 import PostService from "./API/PostService";
+import Loader from "./components/Loader/Loader";
 
 function App() {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [modal, setModal] = useState(false)
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+  const [isPostsLoading, setIsPostsLoading] = useState(false)
+
 
   //------------------
   useEffect(() => {
@@ -26,10 +29,18 @@ function App() {
   }
 
   async function fetchPosts() {
-    const posts = await PostService.getAll()
-    setPosts(posts.data)
+    setIsPostsLoading(true)
+
+    setTimeout(async () => {
+      const posts = await PostService.getAll()
+      setPosts(posts.data)
+
+      setIsPostsLoading(false)
+
+    }, 3000)
+
   }
-  
+
   const removePost = (post) => {
     setPosts(posts.filter(p => p.id !== post.id))
   }
@@ -61,8 +72,12 @@ function App() {
         setFilter={setFilter}
       />
 
-      <PostList remove={removePost} posts={sortedAndSearchedPosts}
-                title={'Posts'}/>
+      {isPostsLoading
+        ? <Loader/>
+        : <PostList remove={removePost} posts={sortedAndSearchedPosts}
+                    title={'Posts'}/>
+      }
+
 
       <div className={'copyright'}>
         App created by <a
