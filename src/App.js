@@ -9,15 +9,27 @@ import {usePosts} from "./hooks/usePosts";
 import PostService from "./API/PostService";
 import Loader from "./components/Loader/Loader";
 import {useFetching} from "./hooks/useFetching";
+import {getPagesCount} from "./utils/pages";
+import {usePagination} from "./hooks/usePagination";
 
 function App() {
   const [posts, setPosts] = useState([])
   const [filter, setFilter] = useState({sort: '', query: ''})
   const [modal, setModal] = useState(false)
+
+  const [totalPages, setTotalPages] = useState(0)
+  const [limit, setLimit] = useState(10)
+  const [page, setPage] = useState(1)
+  const pagesArray = usePagination(totalPages)
+
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
+
   const [fetchPosts, isPostsLoading, postError] = useFetching(async () => {
-    const posts = await PostService.getAll()
-    setPosts(posts.data)
+    const response = await PostService.getAll(limit, page)
+    setPosts(response.data)
+
+    const totalCount = response.headers['x-total-count']
+    setTotalPages(getPagesCount(totalCount, limit))
   })
 
   //------------------
@@ -34,6 +46,10 @@ function App() {
     setPosts(posts.filter(p => p.id !== post.id))
   }
 
+  const changePage = (page) => {
+    setPage(page)
+    fetchPosts()
+  }
   //------------------
   return (
     <div className="App">
@@ -73,9 +89,21 @@ function App() {
 
       {isPostsLoading
         ? <Loader/>
-        : <PostList remove={removePost} posts={sortedAndSearchedPosts}
-                    title={'Posts'}/>
+        : <PostList remove={removePost}
+                    posts={sortedAndSearchedPosts} title={'Posts'}/>
       }
+
+      <div className="pagination">
+        {pagesArray.map((p) =>
+          <div
+            onClick={() => {changePage(p)}}
+            className={page === p ? 'pagination__btn active' : 'pagination__btn'}
+            key={p}>
+            {p}
+          </div>
+        )}
+      </div>
+
 
 
       <div className={'copyright'}>
