@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +7,7 @@
 }
 
 body {
-    font-family: Roboto, sans-serif;
+    font-family: 'Sora', sans-serif;
     background-color: #dbdbdb;
 }
 
@@ -54,25 +56,14 @@ h3 {
     justify-content: right;
 }
 
-.copyright {
-    font-size: 14px;
-    color: grey;
-    text-align: center;
-    margin: 40px 0 20px;
-}
+.about {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.copyright a {
-    color: black;
-    text-decoration: none;
-    border-bottom: 1px dashed black;
-    font-size: 12px;
-
-    transition: all .3s ease;
-}
-
-.copyright a:hover {
-    color: #7000b7;
-    border-bottom: 1px solid #7000b7;
+    font-weight: 900;
+    font-size: 32px;
 }
 
 .post-enter {
@@ -97,7 +88,7 @@ h3 {
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-top: 40px;
+    margin: 40px 0 80px;
 }
 
 .pagination__btn {
