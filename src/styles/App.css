@@ -56,13 +56,26 @@ h3 {
     justify-content: right;
 }
 
+.post__buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .about {
     height: calc(100vh - 50px);
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
 
+.about h1 {
     font-weight: 900;
+    font-size: 48px;
+}
+
+.about p {
+    margin-top: 20px;
     font-size: 32px;
 }
 
@@ -122,6 +135,7 @@ h3 {
     height: 50px;
 
 }
+
 .navbar__link {
     padding: 4px 8px;
     border-radius: 8px;
@@ -131,4 +145,20 @@ h3 {
 
 .navbar__link:hover, .active {
     background-color: #eee;
+}
+
+.post-id-page {
+    margin-top: 40px;
+}
+
+.post-id-page em {
+    color: darkgrey;
+}
+
+.post-id-page h1 {
+    margin: 20px 0;
+}
+
+.post-id-page p {
+    color: #252525;
 }

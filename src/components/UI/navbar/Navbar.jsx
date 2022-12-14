@@ -6,8 +6,9 @@ const Navbar = () => {
     <nav className='navbar'>
       <div className="App">
         <div className="navbar__inner">
-          <NavLink to="/about" className="navbar__link">About</NavLink>
+          <NavLink to="/" className="navbar__link">Home</NavLink>
           <NavLink to="/posts" className="navbar__link">Posts</NavLink>
+          <NavLink to="/about" className="navbar__link">About</NavLink>
         </div>
       </div>
     </nav>
