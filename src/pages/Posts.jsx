@@ -59,9 +59,8 @@ function Posts() {
           marginTop: '20px',
           borderColor: '#7000b7',
           width: '100%',
-          minHeight: '40px',
           borderRadius: '25px',
-          fontSize: '15px'
+          fontSize: '15px',
         }}>
         Create post &#43;
       </MyButton>

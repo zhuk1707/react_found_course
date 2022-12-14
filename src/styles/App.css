@@ -162,3 +162,18 @@ h3 {
 .post-id-page p {
     color: #252525;
 }
+
+.comment-section {
+    margin: 60px 0;
+}
+
+.comment-section__item {
+    background-color: #eee;
+    margin: 15px 0;
+    padding: 20px 25px;
+    border-radius: 20px;
+}
+
+.comment-section__item:not(:first-child) {
+    margin-top: 10px;
+}
