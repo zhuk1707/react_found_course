@@ -8,7 +8,11 @@ const Error = () => {
   return (
     <div className={'about App'}>
       <h1>Oops!</h1>
-      <h1>This page does not exist</h1>
+      <h1>
+        This page does not exist or you don 't
+        have permission to visit it
+        (log in to get access)
+      </h1>
       <MyButton
         onClick={() => navigate(-1)}
         style = {{

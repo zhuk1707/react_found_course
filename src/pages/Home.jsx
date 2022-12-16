@@ -9,7 +9,6 @@ const Home = () => {
         sapiente similique totam
         voluptatum!
       </p>
-      <p>Lorem ipsum dolor!</p>
     </div>
   );
 };

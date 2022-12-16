@@ -177,3 +177,13 @@ h3 {
 .comment-section__item:not(:first-child) {
     margin-top: 10px;
 }
+
+.login {
+    padding: 20px 25px 30px;
+    background-color: #eeeeee;
+    border-radius: 25px;
+}
+
+.login h1 {
+    margin-bottom: 20px;
+}
