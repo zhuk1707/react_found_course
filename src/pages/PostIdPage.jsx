@@ -45,15 +45,13 @@ const PostIdPage = () => {
               <h2> Comments</h2>
 
               {comments.map((comment) =>
-                <div className={'comment-section__item'}>
+                <div className={'comment-section__item'} key={comment.id}>
                   <h4>{comment.email}</h4>
                   <p>{comment.body}</p>
                 </div>
               )}
             </div>
           }
-
-
         </div>
       }
     </>

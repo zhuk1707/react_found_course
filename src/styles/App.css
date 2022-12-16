@@ -124,7 +124,7 @@ h3 {
 }
 
 .navbar {
-    border-bottom: 1px solid darkgrey;
+    /*border-bottom: 1px solid darkgrey;*/
 }
 
 .navbar__inner {
