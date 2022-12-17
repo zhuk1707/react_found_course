@@ -11,6 +11,7 @@ import {useFetching} from "../hooks/useFetching";
 import {getPagesCount} from "../utils/pages";
 import MyPagination from "../components/UI/pagination/MyPagination";
 import {useObserver} from "../hooks/useObserver";
+import MySelect from "../components/UI/select/MySelect";
 
 function Posts() {
   const [posts, setPosts] = useState([])
@@ -18,7 +19,7 @@ function Posts() {
   const [modal, setModal] = useState(false)
 
   const [totalPages, setTotalPages] = useState(0)
-  const [limit] = useState(10)
+  const [limit, setLimit] = useState(10)
   const [page, setPage] = useState(1)
 
   const sortedAndSearchedPosts = usePosts(posts, filter.sort, filter.query)
@@ -40,7 +41,7 @@ function Posts() {
 
   useEffect(() => {
     fetchPosts(limit, page).then()
-  }, [page /*no dependencies means the effect will be called once*/])
+  }, [page, limit /*no dependencies means the effect will be called once*/])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
@@ -79,6 +80,18 @@ function Posts() {
         filter={filter}
         setFilter={setFilter}
       />
+
+     <MySelect
+       value={limit}
+       onChange={val => setLimit(val)}
+       defaultValue='Value of showed posts'
+       options={[
+         {name: '5', value: 5},
+         {name: '10', value: 10},
+         {name: '50', value: 50},
+         {name: 'all', value: -1},
+       ]}
+     />
 
       {postError &&
         <div style={{

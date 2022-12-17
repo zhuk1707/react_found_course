@@ -11,6 +11,7 @@ const MySelect = ({options, defaultValue, value, onChange}) => {
         backgroundColor: '#eee',
         color: 'grey',
         border: '1px solid grey',
+        marginRight: 20
       }}
     >
       <option disabled value="">{defaultValue}</option>
