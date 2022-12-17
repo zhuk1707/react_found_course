@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import PostList from "../components/PostList";
 import PostForm from "../components/PostForm";
 import PostFilter from "../components/PostFilter";
@@ -24,16 +24,38 @@ function Posts() {
 
   const [fetchPosts, isPostsLoading, postError] = useFetching(async (limit, page) => {
     const response = await PostService.getAll(limit, page)
-    setPosts(response.data)
+    setPosts([...posts, ...response.data])
 
     const totalCount = response.headers['x-total-count']
     setTotalPages(getPagesCount(totalCount, limit))
   })
 
+  const lastElement = useRef()
+  const observer = useRef()
+
   //------------------
   useEffect(() => {
-    fetchPosts(limit, page)
-  }, [/*no dependencies means the effect will be called once*/])
+    if (isPostsLoading) return;
+
+    if (observer.current) {
+      observer.current.disconnect()
+    }
+
+    let callback = function (entries, observer) {
+      if (entries[0].isIntersecting && page < totalPages) {
+        setPage(page + 1)
+        console.log(page)
+      }
+    }
+
+    observer.current = new IntersectionObserver(callback);
+    observer.current.observe(lastElement.current)
+
+  }, [isPostsLoading])
+
+  useEffect(() => {
+    fetchPosts(limit, page).then()
+  }, [page /*no dependencies means the effect will be called once*/])
 
   const createPost = (newPost) => {
     setPosts([...posts, newPost])
@@ -46,7 +68,6 @@ function Posts() {
 
   const changePage = (page) => {
     setPage(page)
-    fetchPosts(limit, page)
   }
   //------------------
   return (
@@ -76,18 +97,30 @@ function Posts() {
 
       {postError &&
         <div style={{
-          marginTop: '20px', padding: '20px 25px', border: '1px' +
-            ' solid #ff2b50', borderRadius: '25px', backgroundColor: 'rgba(255,43,80,0.1)'
+          marginTop: '20px',
+          padding: '20px 25px',
+          border: '1px' +
+            ' solid #ff2b50',
+          borderRadius: '25px',
+          backgroundColor: 'rgba(255,43,80,0.1)'
         }}>
           <h1>Oops, something's wrong:</h1>
           <p style={{color: '#ff2b50'}}>{postError}</p>
         </div>
       }
 
-      {isPostsLoading
-        ? <Loader/>
-        : <PostList remove={removePost}
-                    posts={sortedAndSearchedPosts} title={'Our posts'}/>
+      <PostList remove={removePost}
+                posts={sortedAndSearchedPosts} title={'Our posts'}/>
+
+      <div
+        ref={lastElement}
+        style={{
+          backgroundColor: 'red',
+          height: 20,
+        }}/>
+
+      {isPostsLoading &&
+        <Loader/>
       }
 
       <MyPagination
